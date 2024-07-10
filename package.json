@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@iresine/react-query": "^1.0.14",
+    "@tanstack/react-query": "^5.50.1",
+    "axios": "^1.7.2",
+    "react-query": "^3.39.3"
+  }
+}
