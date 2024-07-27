@@ -11,7 +11,7 @@ export const PrimaryInput = styled.input`
     background-color: var(--bg-secondary);
 
     font-family: inherit;
-    font-weght: 400;
+    font-weight: 400;
     font-size: 14px;
     line-height: 22px;
     color: var(--text-dark);
@@ -30,13 +30,14 @@ const InputContainer = styled.div`
 `
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-
+    value: string;
+    handleChange: (value: string) => void
 }
 
 export function PrimaryInputWSearchIcon(props: InputProps){
     return(
         <InputContainer>
-            <PrimaryInput {...props}/>
+            <PrimaryInput type="text" spellCheck="false" onChange={(event) => props.handleChange(event.target.value)} {...props}/>
             <SearchIcon/>
         </InputContainer>
     )
