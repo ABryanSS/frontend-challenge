@@ -1,6 +1,7 @@
 "use client"
 
 import { BackBtn } from "@/components/back-button";
+import { CartControl } from "@/components/cart-control";
 import { DefaultPageLayout } from "@/components/default-page-layout";
 import { ShopBagIcon } from "@/components/icons/shopping-bag";
 import { useProduct } from "@/hooks/useProduct";
@@ -110,7 +111,28 @@ const ProductInfo = styled.div`
 export default function Product({ searchParams }: { searchParams: { id: string }}){
     const { data } = useProduct(searchParams.id);
 
-    console.log(data)
+    const handleAddToCard = () => {
+        let cardItems = localStorage.getItem('cart-items');
+        if(cardItems) {
+            let cardItemsArray = JSON.parse(cardItems);
+
+            let existingProductIndex = cardItemsArray.findIndex((item: { id: string; }) => item.id === searchParams.id);
+            
+            if(existingProductIndex != -1){
+                cardItemsArray[existingProductIndex].quantity += 1;
+            } else {
+                cardItemsArray.push({ ...data, quantity: 1, id: searchParams.id})
+            }
+
+            localStorage.setItem('cart-items', JSON.stringify(cardItemsArray));
+            
+        } else {
+            const newCart = [{ ...data, quantity: 1, id: searchParams.id}]
+            localStorage.setItem('cart-items', JSON.stringify(newCart));
+        }
+
+    }
+
 
     return(
         <DefaultPageLayout>
@@ -129,7 +151,7 @@ export default function Product({ searchParams }: { searchParams: { id: string }
                                 <p>{data?.description}</p>
                             </div>
                         </ProductInfo>
-                        <button>
+                        <button onClick={handleAddToCard}>
                             <ShopBagIcon/>
                             Adicionar ao carrinho
                         </button>
